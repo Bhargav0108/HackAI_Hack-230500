@@ -5,10 +5,12 @@ from utils.alert import send_notification
 import os
 import requests
 import json
+import time
 
 location = ""
 min_temp, max_temp = None,None
 mobileNumber = ""
+last_notification_time = 0
 
 TEMP_SEED = os.getenv("TEMP_SEED", "temperature really secret phrase :)")
 
@@ -73,7 +75,10 @@ async def check_temperature(ctx: Context):
         if temperature<min_temp or temperature>max_temp:
             print("Temperature is not with threshold")
             if mobileNumber != "":
-                send_notification(mobileNumber, temperature)
+                notification_time = time.time()
+                if notification_time - last_notification_time >= 3600:
+                    send_notification(mobileNumber, temperature)
+                    last_notification_time = notification_time
     except Exception as exc:
        print(exc)
 
