@@ -11,7 +11,7 @@ def send_notification(recipient_phoneNumber, temperature):
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
     message = client.messages.create(
-        body= f"Current temperature is {temperature} which is not within set threshold.",
+        body= f"Current temperature is {temperature}C which is not within set threshold.",
         from_=FROM_NUMBER,
         to=TO_NUMBER,
     )
